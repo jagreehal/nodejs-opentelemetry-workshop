@@ -1,0 +1,26 @@
+{
+  "name": "nodejs-opentelemetry-workshop-docs",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/markdown-remark": "7.3.1",
+    "@astrojs/starlight": "0.42.2",
+    "@twinkleplop/bash": "0.1.4",
+    "@twinkleplop/json": "0.1.4",
+    "@twinkleplop/rehype": "0.1.4",
+    "@twinkleplop/theme-github": "0.2.1",
+    "@twinkleplop/typescript": "0.1.4",
+    "astro": "7.3.3",
+    "astro-mermaid": "2.1.0",
+    "mermaid": "12.0.0",
+    "starlight-theme-nova": "0.12.3"
+  },
+  "devDependencies": {
+    "typescript": "~5.9.3"
+  }
+}

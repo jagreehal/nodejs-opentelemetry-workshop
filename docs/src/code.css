@@ -1,0 +1,16 @@
+/* Give highlighted blocks the theme's background and room to scroll. */
+.sl-markdown-content pre {
+  background: var(--twp-background);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+}
+
+/* Nova styles inline `code` as a chip; inside a block it should be plain. */
+.sl-markdown-content pre code {
+  background: none;
+  border: 0;
+  padding: 0;
+  font-size: inherit;
+  white-space: pre;
+}

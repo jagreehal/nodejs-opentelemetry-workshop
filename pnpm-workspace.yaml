@@ -1,0 +1,9 @@
+packages:
+  - docs
+
+# autotel-devtools pulls in esbuild and protobufjs, both of which run install
+# scripts. pnpm 10+ blocks those by default and then refuses to run anything
+# else, so a fresh clone fails on `pnpm install` rather than on anything you did.
+allowBuilds:
+  esbuild: true
+  protobufjs: true

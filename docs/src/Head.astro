@@ -1,0 +1,16 @@
+---
+import Default from '@astrojs/starlight/components/Head.astro';
+---
+
+<Default><slot /></Default>
+
+{/* The twinkleplop theme switches palette on a `.dark` class; Starlight sets
+    data-theme. Mirror one onto the other, now and on every toggle. */}
+<script is:inline>
+  (() => {
+    const root = document.documentElement;
+    const sync = () => root.classList.toggle('dark', root.dataset.theme === 'dark');
+    sync();
+    new MutationObserver(sync).observe(root, { attributeFilter: ['data-theme'] });
+  })();
+</script>
