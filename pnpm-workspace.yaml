@@ -7,3 +7,9 @@ packages:
 allowBuilds:
   esbuild: true
   protobufjs: true
+
+# autotel is released alongside this workshop, so a fresh autotel release can be
+# pinned here the same day. Everything else still waits out pnpm's release-age policy.
+minimumReleaseAgeExclude:
+  - autotel
+  - autotel-*
