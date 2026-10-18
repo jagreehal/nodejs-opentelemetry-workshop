@@ -80,11 +80,13 @@ Record into them at the end of every withdrawal:
 Open devtools' Metrics view. `atm.withdraw.duration` has one series per
 branch. Here is what each one holds after the run:
 
-| Branch        | Withdrawals | 50 to 75ms | 75 to 100ms | 250 to 500ms |
-| ------------- | ----------- | ---------- | ----------- | ------------ |
-| bridge-street | 80          | 58         | 22          | 0            |
-| canada-water  | 80          | 49         | 23          | 8            |
-| kings-cross   | 40          | 24         | 8           | 8            |
+| Branch        | Withdrawals | 50 to 100ms | 250 to 500ms |
+| ------------- | ----------- | ----------- | ------------ |
+| bridge-street | 80          | 80          | 0            |
+| canada-water  | 80          | 72          | 8            |
+| kings-cross   | 40          | 32          | 8            |
+
+![Devtools Metrics view for atm.withdraw.duration: 200 withdrawals in total, most between 50 and 100ms and 16 between 250 and 500ms, with 80, 40 and 80 in the bridge-street, kings-cross and canada-water series](./images/metrics.png)
 
 The dashboard's verdict: bridge-street is fine, one withdrawal in ten at
 canada-water is slow, and one in five at kings-cross is. The numbers are
@@ -109,13 +111,15 @@ values, such as durations, without keeping them. It splits the number line
 into ranges, called _buckets_, and counts how many values land in each. The
 defaults are 0 to 5ms, 5 to 10ms, 10 to 25ms, and so on up to 10 seconds. The
 table above is the whole of what the histogram stored: bucket counts, plus a
-total count, a sum, a minimum and a maximum.
+total count, a sum, a minimum and a maximum. It joins the 50 to 75ms and 75 to
+100ms buckets, because typical withdrawals take about 75ms and land on either
+side of the line from one run to the next.
 
 ```mermaid
 flowchart LR
   W["kings-cross withdrawal<br/>took 81ms"] --> R{"which bucket?"}
-  R --> B1["50 to 75ms: 24"]
-  R --> B2["75 to 100ms: 8, now 9"]
+  R --> B1["50 to 75ms"]
+  R --> B2["75 to 100ms: one more"]
   R --> B3["250 to 500ms: 8"]
   B2 --> D["dashboard reads the counts<br/>and estimates p50, p99"]
 ```

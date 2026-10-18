@@ -101,6 +101,8 @@ gantt
 The slow withdrawal spends 320 of its 350ms inside `bank.debit`. With one span
 you had a total. With five you can point at the step that ate the time.
 
+![Waterfall of a slow withdrawal: bank.debit takes 321ms of the 354ms atm.withdraw span](./images/waterfall.png)
+
 ### Why this solution
 
 _Observability Engineering_ (Chapter 7) gives two questions that guide the

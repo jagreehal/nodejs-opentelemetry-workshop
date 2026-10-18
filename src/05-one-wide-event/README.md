@@ -88,6 +88,8 @@ Both refused customers come back. `u_001` had £428.30 in the account and `u_004
 had £794.79 when the machine refused them. They had the money, and the £300 cap
 stopped them. You have a product decision to revisit, and no outage.
 
+![Devtools search for DAILY_LIMIT_EXCEEDED refusals with a balance over £400, returning two withdrawals](./images/daily-limit.png)
+
 In the exercise, each fact sits on whichever span learned it:
 
 ```mermaid

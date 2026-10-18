@@ -91,6 +91,8 @@ three new fields:
 Your ids will differ. Copy one `trace_id` into the devtools search box as
 `trace_id = "…"` and you land on that withdrawal's trace.
 
+![One withdrawal's trace in devtools, with its four log lines, withdrawal started, user found, pin ok and debited, listed under the waterfall](./images/one-withdrawal.png)
+
 ### Why this solution
 
 **Instrumentation works by patching a library as it loads.** An

@@ -132,6 +132,8 @@ again, and check the slow cohort changes the way you predicted. That run is
 what confirms the hypothesis. The exercise under "Check your understanding"
 below walks through one.
 
+![Waterfall of a slow withdrawal where atm.dispense takes 602ms of 677ms](./images/dispense.png)
+
 ### Why this solution
 
 **These dashboard views split by one label at a time.** Each p95 in the scene

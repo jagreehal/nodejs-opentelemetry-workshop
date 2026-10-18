@@ -86,6 +86,8 @@ The first query returns six withdrawals. The second returns one, at
 withdrawal took about 350ms while the other eight took about 70ms. Hold that
 thought until part 10.
 
+![Devtools search box with atm.branch = "bridge-street", returning six withdrawals, one of them about 350ms](./images/bridge-street.png)
+
 ```mermaid
 flowchart LR
   subgraph before["Exercise: facts in strings"]

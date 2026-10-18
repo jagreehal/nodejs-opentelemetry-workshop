@@ -283,6 +283,8 @@ status = ERROR
 withdrawal.refusal_code = "CARD_RETAINED"
 ```
 
+![Devtools Errors view grouping refused withdrawals by refusal code: DAILY_LIMIT_EXCEEDED, INSUFFICIENT_FUNDS, CARD_RETAINED, PIN_INCORRECT, CARD_NOT_RECOGNISED](./images/errors.png)
+
 The last query is worth a moment. Three withdrawals used one card with the same
 wrong PIN, and the third had a different ending from the first two. The counter
 behind that lives in `bank/auth.ts` and survives between requests. State that
