@@ -23,88 +23,14 @@
  *
  *   // import: ./instrumentation.ts
  */
-import { readdirSync, readFileSync, existsSync } from 'node:fs';
-import { spawn } from 'node:child_process';
-import { createServer } from 'node:net';
-import { dirname, join, resolve } from 'node:path';
-import { pathToFileURL } from 'node:url';
+import { readdirSync, existsSync } from 'node:fs';
+import { join } from 'node:path';
 import { setTimeout as delay } from 'node:timers/promises';
+import { directives, runPart, startDevtools } from './devtools.mjs';
 
-const HOST = '127.0.0.1';
+const devtools = await startDevtools();
 
-const tsx = join('node_modules', '.bin', 'tsx');
-
-/** A port nothing else holds, so a devtools the learner left running is safe. */
-const freePort = () =>
-  new Promise((resolve) => {
-    const probe = createServer();
-    probe.listen(0, HOST, () => {
-      const { port } = probe.address();
-      probe.close(() => resolve(port));
-    });
-  });
-
-const PORT = await freePort();
-
-const BASE = `http://${HOST}:${PORT}`;
-
-const isUp = async () => {
-  try {
-    const res = await fetch(`${BASE}/healthz`, {
-      signal: AbortSignal.timeout(500),
-    });
-
-    return res.ok;
-  } catch {
-    return false;
-  }
-};
-
-async function receiver() {
-  const child = spawn(
-    join('node_modules', '.bin', 'autotel-devtools'),
-    ['--port', String(PORT), '--grpc-port', String(PORT + 1)],
-    { stdio: 'ignore' },
-  );
-
-  for (let attempt = 0; attempt < 60; attempt += 1) {
-    await delay(250);
-
-    if (await isUp()) return { close: () => child.kill() };
-  }
-
-  child.kill();
-  throw new Error(`autotel-devtools never came up on ${BASE}`);
-}
-
-/** Every `// <name>: value` line in a file, in order. */
-const directives = (file, name) =>
-  readFileSync(file, 'utf8')
-    .split('\n')
-    .map((line) => new RegExp(`^\\s*//\\s*${name}:\\s*(.+)$`).exec(line)?.[1]?.trim())
-    .filter(Boolean);
-
-/** `--import` flags for the modules a file asks to preload. */
-const preloads = (file) =>
-  directives(file, 'import').flatMap((path) => [
-    // Same reason as run.mjs: the loader hook's notice is about Node.
-    '--disable-warning=ExperimentalWarning',
-    '--import',
-    pathToFileURL(resolve(dirname(file), path)).href,
-  ]);
-
-const run = (file) =>
-  new Promise((done) => {
-    const child = spawn(tsx, [...preloads(file), file], {
-      stdio: ['ignore', 'pipe', 'pipe'],
-      env: { ...process.env, OTEL_EXPORTER_OTLP_ENDPOINT: BASE },
-    });
-
-    let output = '';
-    child.stdout.on('data', (chunk) => (output += chunk));
-    child.stderr.on('data', (chunk) => (output += chunk));
-    child.on('exit', (code) => done({ code: code ?? 1, output }));
-  });
+const BASE = devtools.base;
 
 async function traceCount(query, window) {
   const res = await fetch(`${BASE}/api/query/traces`, {
@@ -173,8 +99,6 @@ const parts = readdirSync('src', { withFileTypes: true })
   .map((entry) => entry.name)
   .sort();
 
-const devtools = await receiver();
-
 let failures = 0;
 
 for (const part of parts) {
@@ -184,7 +108,7 @@ for (const part of parts) {
     if (!existsSync(file)) continue;
 
     const start = Date.now() - 1000;
-    const { code, output } = await run(file);
+    const { code, output } = await runPart(file, BASE);
     const end = Date.now() + 1000;
     const label = `${part}/${kind}`;
 

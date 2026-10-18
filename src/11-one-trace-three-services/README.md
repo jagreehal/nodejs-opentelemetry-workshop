@@ -46,6 +46,8 @@ what arrives in the envelope. Over HTTP, the envelope is the request.
 One withdrawal produces three trace ids. Devtools shows three unrelated traces,
 and you have no path from the slow one to the reason.
 
+![Devtools Traces view where atm, auth-service and accounts-service each appear as separate one-span traces](./images/three-traces.png)
+
 ```mermaid
 sequenceDiagram
     participant ATM as atm (trace c27e…)
@@ -182,6 +184,10 @@ records `0c3df08ee0577d1e` as its parent. That one step puts `auth.find_card`
 under `atm.withdraw` in the waterfall. No vendor owns the format, so a Java or
 Python service that reads `traceparent` joins your trace without agreeing on
 anything else.
+
+![One atm.withdraw trace with auth.find_card, auth.verify_pin, accounts.get and accounts.debit nested under it](./images/one-trace.png)
+
+![Devtools Service Map with arrows from atm to auth-service and from atm to accounts-service](./images/service-map.png)
 
 **The last field carries a sampling decision.** A busy system keeps a fraction
 of its traces and drops the rest to control cost. That choice is called

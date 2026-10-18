@@ -94,6 +94,8 @@ Open the devtools tab. You will see five traces named `atm.withdraw`, each with
 its own duration. The `randomUUID`, the `Date.now()` arithmetic and the `log()`
 helper are gone, and you lost nothing with them.
 
+![Devtools Traces view listing five atm.withdraw traces, each with its own duration](./images/traces.png)
+
 ### Two words you now need
 
 A **span** records one unit of work: a name, a start time, a duration, a

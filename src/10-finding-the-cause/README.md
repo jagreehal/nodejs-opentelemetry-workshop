@@ -44,6 +44,8 @@ Start in the devtools search box:
 name = "atm.withdraw" and duration > 200
 ```
 
+![Devtools search for atm.withdraw spans over 200ms, returning the slow withdrawals](./images/slow.png)
+
 Then work through the fields. Group by `atm.model`, then by `atm.branch`, then
 by `withdrawal.amount_pence`. Keep going until you have the answer or run out of
 fields.

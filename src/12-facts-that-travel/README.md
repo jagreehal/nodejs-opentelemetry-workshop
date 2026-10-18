@@ -87,6 +87,8 @@ sequenceDiagram
 Six withdrawals alternate between two machines, so three of them run at
 `canada-water`. The query that returned nothing now returns those three.
 
+![Devtools search for accounts-service spans at canada-water, now returning results](./images/canada-water.png)
+
 ### Why this solution
 
 **Baggage** is a set of key-value pairs that travels with a request, in a

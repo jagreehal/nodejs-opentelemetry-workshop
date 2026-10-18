@@ -1,6 +1,6 @@
 import starlight from '@astrojs/starlight';
 import { readdirSync } from 'node:fs';
-import { defineConfig } from 'astro/config';
+import { defineConfig, passthroughImageService } from 'astro/config';
 import { unified } from '@astrojs/markdown-remark';
 import mermaid from 'astro-mermaid';
 import starlightThemeNova from 'starlight-theme-nova';
@@ -24,6 +24,9 @@ export default defineConfig({
   site: process.env.SITE ?? 'https://jagreehal.github.io',
   base: process.env.BASE ?? '/nodejs-opentelemetry-workshop',
   trailingSlash: 'always',
+  // The devtools screenshots ship as `pnpm shots` writes them. Optimising
+  // them would need sharp, a native build, for a couple of megabytes.
+  image: { service: passthroughImageService() },
   markdown: {
     // Twinkleplop highlights instead of Shiki. Fences with no language, and
     // mermaid, stay as plain blocks for astro-mermaid to pick up.
