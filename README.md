@@ -8,6 +8,10 @@ sidebar:
 
 # Node.js OpenTelemetry Workshop
 
+> This workshop is based on the book [Observability Engineering](https://www.oreilly.com/library/view/observability-engineering-2nd/9781098179915/) by Charity Majors, Liz Fong-Jones and George Miranda.
+
+![Observability Engineering, 2nd edition](./images/observability-engineering-2nd.jpg)
+
 From `console.log` to one trace across three services, in thirteen parts. This is
 the Node.js edition; each other language gets its own repository.
 
